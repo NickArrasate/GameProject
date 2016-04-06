@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <script type="text/javascript" src="js/jquery-1.12.2.js"></script>
   <script type="text/javascript" src="js/scripts.js">  </script>
-  <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+  <!-- <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8"> -->
   <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
   <title>Our Game Project</title>
 </head>
@@ -12,33 +12,31 @@
   <div class="container">
 
 
-    <div id="room-display"><!--room displays will go here-->
-      <div class="room" id="entrance">
-        <p>You are facing a moss-laden archway. There is a rusted, dilapidated gate hanging from it's hinges. There may be just enough space to squeeze between the doors.</p>
-      </div>
+    <div id="room-display"><!--room displays will append here-->
+
     </div>
 
     <div id="button-display"><!---button display here -->
       <div id="up">
       <button class="directions" type="button" name="button">^</button>
       </div>
-      <button class="directions" type="button" name="button"><</button>
-      <button class="directions" type="button" name="button">.</button>
-      <button class="directions" type="button" name="button">></button>
+      <button id="left" class="directions" type="button" name="button"><</button>
+      <button id="down" class="directions" type="button" name="button">.</button>
+      <button id="right" class="directions" type="button" name="button">></button>
     </div>
 
     <div id="character-info"><!--display character information here-->
       <h4>Character Sheet</h4>
-      <p>
+      <p id="health">
         Health: 100
       </p>
-      <p>
+      <p id="strength">
         Strength: 10
       </p>
-      <p>
+      <p id="sanity">
         Sanity: 100
       </p>
-      <p>
+      <p id="items">
         Items:
       </p>
     </div>

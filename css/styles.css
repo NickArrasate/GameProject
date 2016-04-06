@@ -12,18 +12,13 @@ body {
   margin-top: 60px;
   background-image: url(../img/frame.png);
   background-size: 100% 100%;
-
   background-repeat: no-repeat;
-
-
 }
-#entrance {
+.room {
   margin: auto;
   padding: 12px 40px 12px 40px;
   max-width: 70%;
-
   border-width: 3px;
-
 }
 #character-info {
   text-align: center;
