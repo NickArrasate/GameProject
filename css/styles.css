@@ -80,6 +80,9 @@ p {
 .health, #health {
   color: crimson;
 }
+.item, #itemdisplay {
+  color: gold;
+}
 #contextual {
   top: 350px;
   margin-left: auto;

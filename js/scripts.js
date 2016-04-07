@@ -3,61 +3,72 @@
 
 // Global Variables ==========================================
 var place = null;
+var rooms1 = [];
 // user interface logic ========================================
 $(document).ready(function(){
   var Character = {
     health : 100,
     strength : 3,
-    sanity : 100,
+    sanity : 10,
     items : ['Gold Lighter'],
   }
 
-  console.log(hallway1.directions)
+
   // Setup the rooms array and starting location and stats========================
-  var rooms = [turnback, path, entrance, foyer, hallway1];
+  var rooms1 = [turnback, path, entrance, foyer, hallway1];
+  var rooms2 = [terrace];
   var place = 1;
-  $('#room-display').append(rooms[place].description);
+  $('#room-display').append(rooms1[place].description);
   characterRefresh(Character);
 
-  // movement =====================================================
+
+  // movement and setting=====================================================
   $('.directions').click(function() {
     var direction = $(this).attr('value');
     place += parseInt(roomChanger(direction));
     $('#room-display').empty();
-    $('#room-display').append(rooms[place].description);
-    rooms[place].action(Character);
+    $('#room-display').append(rooms1[place].description);
+
+//calls the room action function and refreshes stats==========================
+    rooms1[place].action(Character);
     characterRefresh(Character);
-    console.log(hallway1.directions)
-    var directionArray = directionCheck(Character.directions);
-  });
+    $('.directions').hide();
+    $('#contextual').hide();
+    directions = rooms1[place].directions;
+    directionCheck(directions);
+
+
 
   $('#contextual').click(function(){
-    rooms[place].after();
+    rooms1[place].directions.push('up');
+    rooms1[place].after(Character);
+    characterRefresh(Character);
   });
+
 });
+});
+
+function directionCheck(directions){
+  for (i = 0; i < directions.length; i++){
+  console.log(directions[i]);
+  if (directions[i] == 'up'){
+    $('#up').show();
+  }
+  else if (directions[i] == 'down'){
+    $('#down').show();
+  }
+  else if (directions[i] == 'left'){
+    $('#left').show();
+  }
+  else if (directions[i] == 'right'){
+    $('#right').show();
+  }
+}
+}
+
 function arrayBuilder(data){
   console.log(data);
   var newarray = [];
-  data.forEach({
-    newarray.push(data)
-  });
-}
-function directionCheck(directions){
-  console.log(directions);
-  directions.forEach(directionResult);
-}
-function directionResults(direction){
-  {
-    if (direction = 'up'){
-      $('#up').show();
-    } else if (direction = 'down'){
-      $('#down').show();
-    } else if (direction = 'left'){
-      $('#left').show();
-    } else {
-      $('#right').show();
-    }
-  }
 }
 function characterRefresh(Character){
   $('#healthdisplay').text(Character.health);
@@ -74,6 +85,7 @@ function roomChanger(direction){
   }
   return place;
 }
+
 // Room objects to append into display =================
 var hallway1 = {
   description: '<div class="room" id="hallway1">' +
@@ -81,19 +93,19 @@ var hallway1 = {
   '</div>',
   action: function(){
     $('#contextual').show();
-    $('#up').hide();
     $('#contextual span.buttontext').text('Light the gold lighter.')
   },
-  after: function(){
+  after: function(Character){
+    Character.sanity += 1;
     $('#contextual').hide();
     $('#up').show();
     $('#room-display').empty();
     $('#room-display').append(
     '<div class="room" id="hallway1">' +
-  '<p>' + 'You take the antique gold lighter from your pocket and ignite it, shedding a warm glow onto the damp walls of the stairway. You still are unable to see the bottom...' + '</p>' +
+  '<p>' + 'You take the antique <span class ="item">gold lighter </span>from your pocket and ignite it, shedding a warm glow onto the damp walls of the stairway. You still are unable to see the bottom...' + '</p>' +
   '</div>');
 },
-   directions : ["up","down"],
+   directions: ['down'],
 }
 
 var foyer = {
@@ -104,23 +116,35 @@ var foyer = {
     Character.health -= 1;
   },
   after: null,
-  directions : ["up"],
+  directions: ['up'],
+}
+var terrace = {
+  description: '<div class="room" id="entrance">' +
+  '<p>' + 'You find yourself on a small terrace, the wind blows eerily, something\'s not right...'  + '</p>' +
+  '</div>',
+  action: function(Character){
+    Character.sanity -= 3;
+  },
+  after: null,
+  directions: ['left'],
 }
 
 var entrance = {
   description: '<div class="room" id="entrance">' +
-  '<p>' + 'You are facing a moss-laden archway. There is a rusted, dilapidated gate hanging from it\'s hinges. There may be just enough space to squeeze between the doors.' + '</p>' +
+  '<p>' + 'You are facing a moss-laden archway. There is a rusted, dilapidated gate hanging from it\'s hinges. There may be just enough space to squeeze between the doors. To your right there is an overgrown path.' + '</p>' +
   '</div>',
   action: function(){},
   after: null,
-  // directions: [up, down],
+  directions: ['up','down','right'],
 }
 
 var path = {
   description: '<div class="room" id="path">' +
   '<p>' + 'You stand alone on a narrow path hemmed in by towering trees. A blocky shadow looms ahead. You can only go forward...' + '</p>' +
   '</div>',
-  action: function(){},
+  action: function(){
+    $('#down').hide();
+  },
   after: null,
   directions: ['up', 'down'],
 }
