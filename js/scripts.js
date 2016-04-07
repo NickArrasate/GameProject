@@ -2,47 +2,61 @@
 
 
 // Global Variables ==========================================
-var place = null;
+var place = null; //indexes through room arrays. (rooms1,rooms2)
+var arrayPlace = null; //indexes through array of rooms. (roomArray)
 var rooms1 = [];
+var rooms2 = [];
+var roomArray = [];
+var Character = null;
 // user interface logic ========================================
 $(document).ready(function(){
-  var Character = {
-    health : 100,
-    strength : 3,
-    sanity : 10,
-    items : ['Gold Lighter'],
+   Character = {
+    health: 100,
+    strength: 3,
+    sanity: 10,
+    items: ['Gold Lighter'],
   }
 
-
-  // Setup the rooms array and starting location and stats========================
   var rooms1 = [turnback, path, entrance, foyer, hallway1];
-  var rooms2 = [terrace];
-  var place = 1;
-  $('#room-display').append(rooms1[place].description);
-  characterRefresh(Character);
+  var rooms2 = [null, null, terrace];
+  var roomArray = [rooms1,rooms2]
+  // Setup the rooms array and starting location and stats========================
 
+  roomArray.push['rooms1','rooms2'];
+  var place = 1;
+  var arrayPlace = 0;
+  $('#room-display').append(roomArray[arrayPlace][place].description);
+  characterRefresh(Character);
 
   // movement and setting=====================================================
   $('.directions').click(function() {
     var direction = $(this).attr('value');
+    console.log(direction);
+    if (direction == 'up' || direction == 'down'){
     place += parseInt(roomChanger(direction));
+  } else if (direction == 'right' || direction == 'left') {
+    arrayPlace += parseInt(arrayChanger(direction));
+    }
     $('#room-display').empty();
-    $('#room-display').append(rooms1[place].description);
+    $('#room-display').append(roomArray[arrayPlace][place].description);
+    console.log(place, arrayPlace);
+
 
 //calls the room action function and refreshes stats==========================
-    rooms1[place].action(Character);
+
+    console.log(roomArray[arrayPlace][place].action);
+    roomArray[arrayPlace][place].action(Character);
     characterRefresh(Character);
     $('.directions').hide();
-    $('#contextual').hide();
-    directions = rooms1[place].directions;
+
+    var directions = roomArray[arrayPlace][place].directions;
     directionCheck(directions);
 
-
-
   $('#contextual').click(function(){
-    rooms1[place].directions.push('up');
-    rooms1[place].after(Character);
+    roomArray[arrayPlace][place].directions.push('up');
+    roomArray[arrayPlace][place].after(Character);
     characterRefresh(Character);
+    $('#contextual').hide();
   });
 
 });
@@ -50,26 +64,18 @@ $(document).ready(function(){
 
 function directionCheck(directions){
   for (i = 0; i < directions.length; i++){
-  console.log(directions[i]);
   if (directions[i] == 'up'){
     $('#up').show();
-  }
-  else if (directions[i] == 'down'){
+  }else if (directions[i] == 'down'){
     $('#down').show();
-  }
-  else if (directions[i] == 'left'){
+  }else if (directions[i] == 'left'){
     $('#left').show();
-  }
-  else if (directions[i] == 'right'){
+  }else if (directions[i] == 'right'){
     $('#right').show();
   }
 }
 }
 
-function arrayBuilder(data){
-  console.log(data);
-  var newarray = [];
-}
 function characterRefresh(Character){
   $('#healthdisplay').text(Character.health);
   $('#strengthdisplay').text(Character.strength);
@@ -85,6 +91,14 @@ function roomChanger(direction){
   }
   return place;
 }
+function arrayChanger(direction){
+  if (direction == 'right'){
+    arrayPlace = 1;
+  } else if (direction == 'left'){
+    arrayPlace = -1;
+  }
+  return arrayPlace;
+}
 
 // Room objects to append into display =================
 var hallway1 = {
@@ -93,7 +107,7 @@ var hallway1 = {
   '</div>',
   action: function(){
     $('#contextual').show();
-    $('#contextual span.buttontext').text('Light the gold lighter.')
+    $('#contextual span.buttontext').text('Light the gold lighter.');
   },
   after: function(Character){
     Character.sanity += 1;
