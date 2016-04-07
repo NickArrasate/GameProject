@@ -2,13 +2,14 @@
 
 
 // Global Variables ==========================================
-var place = null; //indexes through room arrays. (rooms1,rooms2)
-var arrayPlace = null; //indexes through array of rooms. (roomArray)
+var place = null; //used to index through room arrays. (rooms1,rooms2)
+var arrayPlace = null; //used to index through array of rooms. (roomArray)
 var rooms1 = [];
 var rooms2 = [];
 var roomArray = [];
 var Character = null;
 // user interface logic ========================================
+// Setup the rooms array and starting location and stats========================
 $(document).ready(function(){
    Character = {
     health: 100,
@@ -16,11 +17,9 @@ $(document).ready(function(){
     sanity: 10,
     items: ['Gold Lighter'],
   }
-
-  var rooms1 = [turnback, path, entrance, foyer, hallway1];
-  var rooms2 = [null, null, terrace];
-  var roomArray = [rooms1,rooms2]
-  // Setup the rooms array and starting location and stats========================
+  var rooms1 = [turnback, path, entrance, foyer, hallway1];// y-axis array================
+  var rooms2 = [null, null, terrace];// x-axis array ===========================
+  var roomArray = [rooms1,rooms2]//array for both y- and x-axis==============================
 
   roomArray.push['rooms1','rooms2'];
   var place = 1;
@@ -31,27 +30,25 @@ $(document).ready(function(){
   // movement and setting=====================================================
   $('.directions').click(function() {
     var direction = $(this).attr('value');
-    console.log(direction);
+    //updates the coords with the appropriate values from roomchange and arraychange functions============
     if (direction == 'up' || direction == 'down'){
     place += parseInt(roomChanger(direction));
   } else if (direction == 'right' || direction == 'left') {
     arrayPlace += parseInt(arrayChanger(direction));
     }
+
     $('#room-display').empty();
     $('#room-display').append(roomArray[arrayPlace][place].description);
-    console.log(place, arrayPlace);
+    console.log(place, arrayPlace);// logs current coords==========================
 
-
-//calls the room action function and refreshes stats==========================
-
-    console.log(roomArray[arrayPlace][place].action);
+//calls the room action function and refreshes stats=================================
     roomArray[arrayPlace][place].action(Character);
     characterRefresh(Character);
     $('.directions').hide();
 
     var directions = roomArray[arrayPlace][place].directions;
     directionCheck(directions);
-
+//Contextual button function ======================================================
   $('#contextual').click(function(){
     roomArray[arrayPlace][place].directions.push('up');
     roomArray[arrayPlace][place].after(Character);
@@ -61,7 +58,9 @@ $(document).ready(function(){
 
 });
 });
+// Business logic=======================================
 
+// checks obect.directions for available directions and displays related buttons======================
 function directionCheck(directions){
   for (i = 0; i < directions.length; i++){
   if (directions[i] == 'up'){
@@ -75,14 +74,14 @@ function directionCheck(directions){
   }
 }
 }
-
+//updates character sheet info====================================
 function characterRefresh(Character){
   $('#healthdisplay').text(Character.health);
   $('#strengthdisplay').text(Character.strength);
   $('#sanitydisplay').text(Character.sanity);
   $('#itemdisplay').text(Character.items);
 }
-
+//updates the y-axis information when 'up' or 'down' is pressed=======================
 function roomChanger(direction){
   if (direction == 'up'){
     place = 1;
@@ -91,6 +90,7 @@ function roomChanger(direction){
   }
   return place;
 }
+//updates the x-axis information when 'left' or 'right' is pressed=======================
 function arrayChanger(direction){
   if (direction == 'right'){
     arrayPlace = 1;
@@ -100,7 +100,8 @@ function arrayChanger(direction){
   return arrayPlace;
 }
 
-// Room objects to append into display =================
+// Room objects to append into display ======================================
+// Rooms should contain a 'description' to be appended into html, an 'action' function to happen when char moves into room (can be null), an 'after' function to run after the 'contextual' button has been pressed and the available 'directions' from the room.=============================================
 var hallway1 = {
   description: '<div class="room" id="hallway1">' +
   '<p>' + 'As you enter the stairway, you feel a chill wind rise to greet you. The air has an old smell about it as if it has been laying still for eons. The stairs before you plunge into darkness ahead of you. If only there was an item to light help the way...' + '</p>' +
