@@ -4,40 +4,41 @@
   <meta charset="utf-8">
   <script type="text/javascript" src="js/jquery-1.12.2.js"></script>
   <script type="text/javascript" src="js/scripts.js">  </script>
+  <link href='https://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
   <!-- <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8"> -->
   <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
   <title>Our Game Project</title>
 </head>
 <body>
   <div class="container">
-
-
-    <div id="room-display"><!--room displays will append here-->
-
+    <div class="room-frame">
+      <div id="room-display"><!--room displays will append here-->
+      </div>
     </div>
-
+    <div id="contextual">
+      <button class="button context" value=""><span class ='buttontext'></span></button>
+    </div>
     <div id="button-display"><!---button display here -->
       <div id="up">
-      <button class="directions" type="button" name="button">^</button>
+        <button class="directions" type="button" name="button" value="up">^</button>
       </div>
-      <button id="left" class="directions" type="button" name="button"><</button>
-      <button id="down" class="directions" type="button" name="button">.</button>
-      <button id="right" class="directions" type="button" name="button">></button>
+      <button id="left" class="directions" type="button" name="button" value="left"><</button>
+      <button id="down" class="directions" type="button" name="button" value="down">.</button>
+      <button id="right" class="directions" type="button" name="button" value="right">></button>
     </div>
-
     <div id="character-info"><!--display character information here-->
       <h4>Character Sheet</h4>
       <p id="health">
-        Health: 100
+        Health: <span id="healthdisplay"></span>
       </p>
       <p id="strength">
-        Strength: 10
+        Strength: <span id="strengthdisplay"></span>
       </p>
       <p id="sanity">
-        Sanity: 100
+        Sanity: <span id="sanitydisplay"></span>
       </p>
       <p id="items">
-        Items:
+        Items: <span id="itemdisplay"></span>
       </p>
     </div>
   </div>

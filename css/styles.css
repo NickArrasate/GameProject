@@ -1,28 +1,52 @@
 body {
   background-image: url(../img/parchment.jpg);
   background-position: center;
+  align-items: center;
+}
+p {
+  max-height: 242px;
 }
 .container {
   max-width: 80%;
   margin: auto;
+  align-items: center;
 }
-#room-display {
-  max-width: 70%;
-  margin: auto;
-  margin-top: 60px;
+.room-frame {
   background-image: url(../img/frame.png);
+  z-index: 2;
+  margin: auto;
+  max-width: 80%;
+  height: 295px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  min-height: 242px;
+}
+#room-display {
+  max-width: 87%;
+  height: inherit;
+  margin: auto;
+  margin-top: 13px;
+  padding-bottom: 0;
+  min-height: 242px;
 }
 .room {
+  align-items: center;
+  text-align: center;
+  font-size: 30pt;
+  font-family: 'Tangerine', cursive;
   margin: auto;
-  padding: 12px 40px 12px 40px;
-  max-width: 70%;
-  border-width: 3px;
+  margin-bottom: 30px;
+  padding: 10px 40px 12px 40px;
+  max-width: 100%;
+  max-height: 242px;
+  min-height: 242px;
 }
 #character-info {
+  font-weight: bold;
   text-align: center;
-  top: 200px;
+  top: 320px;
   right: 0px;
   position: fixed;
   margin: auto;
@@ -37,6 +61,7 @@ body {
   text-align: left;
 }
 #button-display {
+  position: relative;
   text-align: center;
   margin: auto;
   margin-top: 200px;
@@ -51,4 +76,25 @@ body {
   text-align: center;
   height: 25px;
   width: 30px;
+}
+.health, #health {
+  color: crimson;
+}
+#contextual {
+  top: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+  text-align: center;
+  z-index: 3;
+
+}
+.context{
+  align-items: center;
+  text-align: center;
+  position:absolute;
+  height: 20px;
+}
+#left, #right {
+  display: none;
 }
