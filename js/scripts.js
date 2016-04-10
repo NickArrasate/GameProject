@@ -7,20 +7,28 @@ var arrayPlace = null; //used to index through array of rooms. (roomArray)
 var rooms1 = [];
 var rooms2 = [];
 var roomArray = [];
-var Character = null;
+// var Character = null;
+var directions = null;
+function Character(health, strength, sanity, items){
+ this.health= health;
+ this.strength = strength;
+ this.sanity = sanity;
+ this.items= items;
+};
+Character.prototype.addSanity1 = function(){
+  return this.sanity += 1;
+};
+Character.prototype.loseSanity1 = function(){
+  return this.sanity -= 1;
+};
+var Character = new Character(100,10,10,['Gold Lighter']);
 // user interface logic ========================================
 // Setup the rooms array and starting location and stats========================
 $(document).ready(function(){
-   Character = {
-    health: 100,
-    strength: 3,
-    sanity: 10,
-    items: ['Gold Lighter'],
-  }
+
   var rooms1 = [turnback, path, entrance, foyer, hallway1];// y-axis array================
   var rooms2 = [null, null, terrace];// x-axis array ===========================
   var roomArray = [rooms1,rooms2]//array for both y- and x-axis==============================
-
   roomArray.push['rooms1','rooms2'];
   var place = 1;
   var arrayPlace = 0;
@@ -35,8 +43,7 @@ $(document).ready(function(){
     place += parseInt(roomChanger(direction));
   } else if (direction == 'right' || direction == 'left') {
     arrayPlace += parseInt(arrayChanger(direction));
-    }
-
+  };
     $('#room-display').empty();
     $('#room-display').append(roomArray[arrayPlace][place].description);
     console.log(place, arrayPlace);// logs current coords==========================
@@ -45,22 +52,20 @@ $(document).ready(function(){
     roomArray[arrayPlace][place].action(Character);
     characterRefresh(Character);
     $('.directions').hide();
-
-    var directions = roomArray[arrayPlace][place].directions;
-    directionCheck(directions);
-//Contextual button function ======================================================
+    console.log(roomArray[arrayPlace][place].directions);//log to track our coords in console.===================
+    directionCheck(roomArray[arrayPlace][place].directions);
+//Contextual button function. pressing the contextual button calls the rooms 'after' function======================================================
   $('#contextual').click(function(){
-    roomArray[arrayPlace][place].directions.push('up');
     roomArray[arrayPlace][place].after(Character);
     characterRefresh(Character);
-    $('#contextual').hide();
+    directionCheck(roomArray[arrayPlace][place].directions);
   });
-
 });
 });
 // Business logic=======================================
+// protoypes for updating character stats. Call the proto in the room object functions.
 
-// checks obect.directions for available directions and displays related buttons======================
+// checks object.directions for available directions and displays related buttons======================
 function directionCheck(directions){
   for (i = 0; i < directions.length; i++){
   if (directions[i] == 'up'){
@@ -108,19 +113,20 @@ var hallway1 = {
   '</div>',
   action: function(){
     $('#contextual').show();
-    $('#contextual span.buttontext').text('Light the gold lighter.');
+    $('#contextual span.buttontext').append('Light the <span class ="item">gold lighter</span>.');
   },
   after: function(Character){
-    Character.sanity += 1;
+    Character.addSanity1();
     $('#contextual').hide();
-    $('#up').show();
+    $('#contextual span.buttontext').empty();
+    hallway1.directions.push("up");
     $('#room-display').empty();
     $('#room-display').append(
     '<div class="room" id="hallway1">' +
-  '<p>' + 'You take the antique <span class ="item">gold lighter </span>from your pocket and ignite it, shedding a warm glow onto the damp walls of the stairway. You still are unable to see the bottom...' + '</p>' +
+  '<p>' + 'You take the antique <span class ="item">gold lighter </span>from your pocket and ignite it, shedding a warm glow onto the damp walls of the stairway. You are still unable to see the bottom...' + '</p>' +
   '</div>');
 },
-   directions: ['down'],
+   directions: [],
 }
 
 var foyer = {
@@ -138,7 +144,7 @@ var terrace = {
   '<p>' + 'You find yourself on a small terrace, the wind blows eerily, something\'s not right...'  + '</p>' +
   '</div>',
   action: function(Character){
-    Character.sanity -= 3;
+    Character.loseSanity1();
   },
   after: null,
   directions: ['left'],

@@ -4,43 +4,58 @@
   <meta charset="utf-8">
   <script type="text/javascript" src="js/jquery-1.12.2.js"></script>
   <script type="text/javascript" src="js/scripts.js">  </script>
+  <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
   <link href='https://fonts.googleapis.com/css?family=Tangerine' rel='stylesheet' type='text/css'>
-  <!-- <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8"> -->
   <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
   <title>Our Game Project</title>
 </head>
 <body>
   <div class="container">
-    <div class="room-frame">
-      <div id="room-display"><!--room displays will append here-->
+    <div class="row">
+      <div class="room-frame col-xl-8 col-xl-offset-2">
+        <div id="room-display"><!--room displays will append here-->
+        </div>
       </div>
     </div>
-    <div id="contextual">
-      <button class="button context" value=""><span class ='buttontext'></span></button>
-    </div>
-    <div id="button-display"><!---button display here -->
-      <div >
-        <button id="up" class="directions" type="button" name="button" value="up">^</button>
+    <div class="row" id="contextrow">
+      <div id="contextual" class="col-xs-4 col-xs-offset-4">
+        <div class="button context" value=""><span class ='buttontext'></span></div>
       </div>
-      <button id="left" class="directions" type="button" name="button" value="left"><</button>
-      <button id="down" class="directions" type="button" name="button" value="down">v</button>
-      <button id="right" class="directions" type="button" name="button" value="right">></button>
     </div>
-    <div id="character-info"><!--display character information here-->
-      <h4>Character Sheet</h4>
-      <p id="health">
-        Health: <span id="healthdisplay"></span>
-      </p>
-      <p id="strength">
-        Strength: <span id="strengthdisplay"></span>
-      </p>
-      <p id="sanity">
-        Sanity: <span id="sanitydisplay"></span>
-      </p>
-      <p id="items">
-        Items: <span id="itemdisplay"></span>
-      </p>
+    <div class="row">
+      <div id="button-display" class="col-xs-4 col-xs-offset-4"><!---button display here -->
+        <div class="row" id="uprow">
+          <div class="col-xs-2 col-xs-offset-5">
+            <img id="up" class="directions" src="img/arrow.png" alt="up arrow" value="up"/>
+          </div>
+        </div>
+        <div id="buttonrow" class="row">
+          <div class="col-xs-2 col-xs-offset-3">
+            <img id="left" class="directions" src="img/arrow.png" alt="up arrow" value="left"/>
+          </div>
+          <div class="col-xs-2" id="downcol">
+            <img id="down" class="directions" src="img/arrow.png" alt="up arrow" value="down"/>
+          </div>
+          <div class="col-xs-2">
+            <img id="right" class="directions" src="img/arrow.png" alt="up arrow" value="right"/>
+          </div>
+        </div>
+      </div>
+      <div id="character-info" class="col-xs-2 col-xs-offset-2"><!--display character information here-->
+        <h4>Character Sheet</h4>
+        <p id="health">
+          Health: <span id="healthdisplay"></span>
+        </p>
+        <p id="strength">
+          Strength: <span id="strengthdisplay"></span>
+        </p>
+        <p id="sanity">
+          Sanity: <span id="sanitydisplay"></span>
+        </p>
+        <p id="items">
+          Items: <span id="itemdisplay"></span>
+        </p>
+      </div>
     </div>
-  </div>
-</body>
-</html>
+  </body>
+  </html>
