@@ -2,6 +2,7 @@ body {
   background-image: url(../img/parchment.jpg);
   background-position: center;
   align-items: center;
+  padding-top: 25px;
 }
 p {
   max-height: 242px;
@@ -59,8 +60,9 @@ p {
   margin-top: 90px;
   background-image: url(../img/frame.png);
   background-size: 100% 100%;
-  height: 60px;
+  height: 68px;
   padding-top: 8px;
+  padding-bottom: 8px;
   background-repeat: no-repeat;
 }
 .directions {
@@ -99,11 +101,14 @@ p {
 .context:hover{
   cursor: pointer;
 }
-#left, #right {
+#left, #right, #up, #down {
   display: none;
 }
 #uprow {
   height: 26px;
+}
+#buttonrow{
+  margin-bottom: 8px;
 }
 #left {
   transform: rotate(90deg);
@@ -115,7 +120,6 @@ p {
   transform: rotate(180deg);
 }
 #down{
-
   text-align: center;
 }
 #downcol {
