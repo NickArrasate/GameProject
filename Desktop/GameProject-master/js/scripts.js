@@ -239,7 +239,8 @@ var path = {
   },
   after: null,
   results: function(){
-    alert("You find a pack of cigarettes");
+    $(".modal-page1").append("<p>You find a pack of cigarettes in your pocket.</p>");
+    $("#myModal").modal();
     Character.items.push("cigarettes");
   },
   directions: ['up'],

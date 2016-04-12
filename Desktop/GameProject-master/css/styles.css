@@ -42,7 +42,7 @@ p {
   max-width: 100%;
   max-height: 242px;
   min-height: 242px;
-  overflow: scroll;
+  overflow: auto;
 }
 #character-info {
   font-weight: bold;
@@ -131,4 +131,52 @@ p {
   font-size: 30pt;
   font-weight: bold;
   font-family: 'Tangerine', cursive;
+}
+
+.modal-content {
+  background-image: url("../img/journal.png");
+  width:800px;
+  height:500px;
+  background-color: rgba(0,0,0,0);
+  box-shadow: none;
+  border: none;
+}
+
+.modal-page1 {
+  float:left;
+  width: 390px;
+  margin-top: 30px;
+  margin-left: 25px;
+}
+.modal-page2 {
+  float:right;
+  margin: 15px 60px 0 0;
+}
+
+.modal-page1 p {
+  font-family: 'tangerine',cursive;
+  position: absolute fixed right;
+  font-size: 24pt;
+  color: rgba(102, 51, 0, .6);
+  text-align: center;
+  text-shadow: .5px .25px .25px black;
+}
+
+.modal-page2 p {
+  font-family: 'tangerine',cursive;
+  position: absolute fixed right;
+  font-size: 24pt;
+  color: rgba(102, 51, 0, .6);
+  text-align: center;
+  text-shadow: .5px .25px .25px black;
+}
+
+.exit {
+  position: absolute fixed right;
+  margin-left: 250px;
+}
+#closeModalBtn {
+  color: rgb(255, 191, 128);
+  background-color: rgba(102, 51, 0, .6);
+  box-shadow: 5px 5px 5px black;
 }
