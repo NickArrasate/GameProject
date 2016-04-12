@@ -126,3 +126,9 @@ p {
   margin-left: 0;
   margin-right: 0;
 }
+#coordinateDisplay {
+  text-align: center;
+  font-size: 30pt;
+  font-weight: bold;
+  font-family: 'Tangerine', cursive;
+}

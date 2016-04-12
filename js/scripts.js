@@ -33,15 +33,14 @@ var Character = new Character(100,10,10,['Gold Lighter']);
 // Setup the rooms array and starting location and stats========================
 $(document).ready(function(){
 
-  var roomCenter = [turnback, introduction,path, entrance, foyer, hallway1, hallway2];// y-axis array================
-  var roomRight = [null,null,null, terrace];// x-axis array ===========================
-  var roomLeft = [null,null,null,null,null,null,labratory];
+  var roomCenter = [introduction, path, entrance, foyer, hallway1, hallway2];// y-axis array================
+  var roomRight = [null,null, terrace];// x-axis array ===========================
+  var roomLeft = [null,null,null,null,null,labratory];
   var roomArray = [roomLeft,roomCenter,roomRight];//array for both y- and x-axis==============================
-  console.log(roomArray);
-  var place = 1;
+  var place = 0;
   var arrayPlace = 1;
   $('#room-display').append(roomArray[arrayPlace][place].description);
-
+  displayCoords(arrayPlace, place);
 
   // movement and setting=====================================================
   $('.directions').click(function() {
@@ -55,13 +54,14 @@ $(document).ready(function(){
     $('#room-display').empty();
     $('#room-display').append(roomArray[arrayPlace][place].description);
     console.log(place, arrayPlace);// logs current coords==========================
-
+    displayCoords(arrayPlace, place, roomArray[arrayPlace][place].title);
 //calls the room action function and refreshes stats=================================
     roomArray[arrayPlace][place].action(Character);
     characterRefresh(Character);
     $('.directions').hide();
     console.log(roomArray[arrayPlace][place].directions);//log to track our coords in console.===================
     directionCheck(roomArray[arrayPlace][place].directions);
+    displayCoords(arrayPlace, place, roomArray[arrayPlace][place].title);
 });
 //Contextual button function. pressing the contextual button calls the rooms 'after' function======================================================
   $('#contextual').click(function(){
@@ -111,10 +111,16 @@ function arrayChanger(direction){
   }
   return arrayPlace;
 }
+function displayCoords(x,y,title){
+  $('#x-coord').text(x);
+  $('#y-coord').text(y);
+  $('#roomName').text(title)
+}
 
 // Room objects to append into display ======================================
 // Rooms should contain a 'description' to be appended into html, an 'action' function to happen when char moves into room (can be null), an 'after' function to run after the 'contextual' button has been pressed and the available 'directions' from the room.=============================================
 var labratory = {
+  title: 'Labratory',
   description: '<div class="room" id="labratory">' +
   '<p>' + 'You make your way down the passage to the left. After walking for a bit, you come across two doors opposite each other. The door on the left is locked tight. However, the door on the right is slightly ajar. Will you investigate?' + '</p>' +
   '</div>',
@@ -136,14 +142,16 @@ var labratory = {
 directions: ['up','down']
 }
 var hallway2 = {
+  title: 'Hallway',
   description: '<div class="room" id="hallway2">' +
-  '<p>' + 'As you reach the bottom of the stairs, the the air smells more and more fetid. The weak flame in your hand is the only light. There is a path to your left and one to your right, each indiscernible from the other in the darkness...' + '</p>' +
+  '<p>' + 'As you reach the bottom of the stairs, the air smells more and more fetid. The weak flame in your hand is the only light. There is a path to your left and one to your right, each indiscernible from the other in the darkness...' + '</p>' +
   '</div>',
   action: function(){},
   after: null,
   directions: ['left','right'],
 }
 var hallway1 = {
+  title: 'Staircase',
   description: '<div class="room" id="hallway1">' +
   '<p>' + 'As you enter the stairway, you feel a chill wind rise to greet you. The air has an old smell about it as if it has been laying still for eons. The stairs before you plunge into darkness. If only there was an item to light help the way...' + '</p>' +
   '</div>',
@@ -167,8 +175,9 @@ var hallway1 = {
 }
 
 var foyer = {
+  title: 'Vestibule',
   description: '<div class="room" id="foyer">' +
-  '<p>' + 'You scraped your back on the rusty gate as you passed beneath (-1 <span class = "health">health</span>). You find yourself in a small, dim vestibule. There is a stairway up ahead... ' + '</p>' +
+  '<p>' + 'You scraped your back on the rusty gate as you passed beneath (-1 <span class = "health">health</span>). You find yourself in a small, dim vestibule. The once, grand meeting place of the cathedral is badly damaged and the pews are a jumbled mess. The aisles are a mess of dusty detritus. You see a narrow staircase leading down... ' + '</p>' +
   '</div>',
   action: function(Character){
     Character.loseHealth(1);
@@ -178,6 +187,7 @@ var foyer = {
   directions: ['up'],
 }
 var terrace = {
+  title: 'Terrace',
   description: '<div class="room" id="entrance">' +
   '<p>' + 'You find yourself on a small terrace, the wind moans through the trees. The shadows beneath the limbs deepen and you feel something watching you. Your skin crawls and you wonder if you might just be imagining things...'  + '</p>' +
   '</div>',
@@ -189,8 +199,9 @@ var terrace = {
 }
 
 var entrance = {
+  title: 'Entrance',
   description: '<div class="room" id="entrance">' +
-  '<p>' + 'You are facing a moss-laden archway. There is a rusted, dilapidated gate hanging from it\'s hinges. There may be just enough space to squeeze between the doors. To your right there is an overgrown path.' + '</p>' +
+  '<p>' + 'After seeing the front door of the large building is blocked by debris you move around to the side to seek entrance. You are facing a moss-laden archway on the broad side of the building. There is a rusted, dilapidated gate hanging from it\'s hinges. There may be just enough space to squeeze between the doors. To your right there is an overgrown path.' + '</p>' +
   '</div>',
   action: function(){},
   after: null,
@@ -198,6 +209,7 @@ var entrance = {
 }
 
 var path = {
+  title: 'Path',
   description: '<div class="room" id="path">' +
   '<p>' + 'You stand alone on a narrow path hemmed in by towering trees. A blocky shadow looms ahead. You can only go forward...' + '</p>' +
   '</div>',
@@ -205,10 +217,11 @@ var path = {
     $('#down').hide();
   },
   after: null,
-  directions: ['up', 'down'],
+  directions: ['up'],
 }
 
 var turnback = {
+  title: 'Path',
   description: '<div class="room" id="path">' +
   '<p>' + 'You really should investigate the path ahead...' + '</p>' +
   '</div>',
@@ -217,6 +230,7 @@ var turnback = {
   directions: ['up'],
 }
 var introduction = {
+  title: 'Introduction',
   description: '<div class="room" id="introduction">' +
   '<p>' + 'Welcome to our game. You have been sent by a wealthy, anonymous sponsor to explore a long forgotten cathedral. St. Lovecraft\'s Cathedral was lost in a great flood many years ago and only recently, due to the considerable efforts of your sponsor, became accessible. You have been asked to return anything you may find inside. There are many rooms and places to explore and you have been provided with a set of coordinates to track your progress. Please note that your statistics and a list of your held items may be found on the lower right of your screen. Enjoy.' + '</p>' +
   '</div>',
@@ -226,6 +240,7 @@ var introduction = {
     $('#contextual span.buttontext').empty();
     characterRefresh(Character);
     this.directions.push('up')
+    place = 2;
   },
   directions: [],
 }
