@@ -68,6 +68,17 @@ $(document).ready(function(){
     roomArray[arrayPlace][place].after(Character);
     directionCheck(roomArray[arrayPlace][place].directions);
   });
+
+    $("button#textSubmit").click(function(event){
+      event.preventDefault();
+      keyArray = [];
+      var enteredText = $("#textInput").val();
+      var keyArray = roomArray[arrayPlace][place].keywords;
+      var checkedText = compareText(keyArray, enteredText);
+      if (checkedText === true){
+        roomArray[arrayPlace][place].results(Character);
+      }
+    });
 });
 // Business logic=======================================
 // protoypes for updating character stats. Call the proto in the room object functions.
@@ -85,6 +96,13 @@ function directionCheck(directions){
     $('#right').show();
   }
 }
+}
+function compareText(passedKeyArray, passedEnteredText){
+  for(i = 0; i < passedKeyArray.length; i += 1){
+    if(passedKeyArray[i] === passedEnteredText){
+      return true;
+    }
+  }
 }
 //updates character sheet info====================================
 function characterRefresh(Character){
@@ -119,6 +137,21 @@ function displayCoords(x,y,title){
 
 // Room objects to append into display ======================================
 // Rooms should contain a 'description' to be appended into html, an 'action' function to happen when char moves into room (can be null), an 'after' function to run after the 'contextual' button has been pressed and the available 'directions' from the room.=============================================
+
+
+var office = {
+  title: 'Office',
+  description: '<div class="room" id="office">' +
+  '<p>' + 'At the end of the hall you enter a small office. tipped and molding furniture lay on the ground among various scattered documents. There is a desk in the middle of the room strewn with papers. Against the far wall, a chest of drawers sits in the gloom.' + '<p/>' +
+  '<div>',
+
+}
+var library = {
+   title: 'Library',
+   description: '<div class="room" id="library">' +
+   '<p>' + ''
+}
+
 var labratory = {
   title: 'Labratory',
   description: '<div class="room" id="labratory">' +
@@ -210,6 +243,7 @@ var entrance = {
 
 var path = {
   title: 'Path',
+  keywords: ['pocket'],
   description: '<div class="room" id="path">' +
   '<p>' + 'You stand alone on a narrow path hemmed in by towering trees. A blocky shadow looms ahead. You can only go forward...' + '</p>' +
   '</div>',
@@ -217,9 +251,12 @@ var path = {
     $('#down').hide();
   },
   after: null,
+  results: function(){
+    alert("You find a pack of cigarettes");
+    Character.items.push("cigarettes");
+  },
   directions: ['up'],
 }
-
 var turnback = {
   title: 'Path',
   description: '<div class="room" id="path">' +
