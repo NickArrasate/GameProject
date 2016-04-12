@@ -28,18 +28,21 @@ Character.prototype.addHealth = function(amount){
 Character.prototype.loseHealth = function(amount){
   return this.health -= amount;
 };
-var Character = new Character(100,10,10,['Gold Lighter']);
+var Character = new Character(100,10,10,['Gold Lighter', ' A Sense Of Self-Worth']);
 // user interface logic ========================================
 // Setup the rooms array and starting location and stats========================
 $(document).ready(function(){
 
   var roomCenter = [introduction, path, entrance, foyer, hallway1, hallway2];// y-axis array================
   var roomRight = [null,null, terrace];// x-axis array ===========================
-  var roomLeft = [null,null,null,null,null,labratory];
+  var roomLeft = [null,null,null,null,null,labratory,office];
   var roomArray = [roomLeft,roomCenter,roomRight];//array for both y- and x-axis==============================
   var place = 0;
   var arrayPlace = 1;
   $('#room-display').append(roomArray[arrayPlace][place].description);
+  $('#room-display').hide();
+  $('#room-display').fadeIn(700);
+
   displayCoords(arrayPlace, place);
 
   // movement and setting=====================================================
@@ -51,8 +54,11 @@ $(document).ready(function(){
   } else if (direction == 'right' || direction == 'left') {
     arrayPlace += parseInt(arrayChanger(direction));
   };
+    $('#contextual').hide();
     $('#room-display').empty();
     $('#room-display').append(roomArray[arrayPlace][place].description);
+    $('#room-display').hide();
+    $('#room-display').fadeIn(700);
     console.log(place, arrayPlace);// logs current coords==========================
     displayCoords(arrayPlace, place, roomArray[arrayPlace][place].title);
 //calls the room action function and refreshes stats=================================
@@ -68,16 +74,17 @@ $(document).ready(function(){
     roomArray[arrayPlace][place].after(Character);
     directionCheck(roomArray[arrayPlace][place].directions);
   });
-
+// Checks contents of the 'search' bar and runs agains the function to check for object keywords ==================================
     $("button#textSubmit").click(function(event){
       event.preventDefault();
-      keyArray = [];
       var enteredText = $("#textInput").val();
+      $('#textInput').val('');
       var keyArray = roomArray[arrayPlace][place].keywords;
       var checkedText = compareText(keyArray, enteredText);
       if (checkedText === true){
         roomArray[arrayPlace][place].results(Character);
       }
+      characterRefresh(Character);
     });
 });
 // Business logic=======================================
@@ -99,7 +106,7 @@ function directionCheck(directions){
 }
 function compareText(passedKeyArray, passedEnteredText){
   for(i = 0; i < passedKeyArray.length; i += 1){
-    if(passedKeyArray[i] === passedEnteredText){
+    if(passedKeyArray[i] == passedEnteredText){
       return true;
     }
   }
@@ -141,9 +148,20 @@ function displayCoords(x,y,title){
 
 var office = {
   title: 'Office',
+  keywords: ['drawer','desk','drawers','furniture'],
   description: '<div class="room" id="office">' +
   '<p>' + 'At the end of the hall you enter a small office. tipped and molding furniture lay on the ground among various scattered documents. There is a desk in the middle of the room strewn with papers. Against the far wall, a chest of drawers sits in the gloom.' + '<p/>' +
   '<div>',
+  action: function(){},
+  results: function(){
+    $('#room-display').empty();
+    $('#room-display').append(
+    '<div class="room" id="labratory">' +
+    '<p>' + 'You searched the desk and found an unlocked drawer. The drawer contained a <span class="item">Small Key</span>.' + '</p>' +
+    '</div>');
+    Character.items.push(' Small Key')
+},
+  directions: ['down'],
 
 }
 var library = {
@@ -159,7 +177,7 @@ var labratory = {
   '</div>',
   action: function(){
   $('#contextual').show();
-  $('#contextual span.buttontext').append('Push the door open.');
+  $('#contextual span.buttontext').text('Push the door open.');
 },
   after: function(Character){
     Character.loseSanity(3);
@@ -172,7 +190,7 @@ var labratory = {
   '<p>' + 'The room is small and contains several tables densely cluttered with glass vials and scientific equipment. Dust covers every surface. You approach a large glass container. When you hold your light up to it, the shape of a large, curled tentacle emerges through the cloudy liquid that suspends it. You recoil in disgust at the sight and knock a vial off the table behind you sending it to the ground. The sound of it shattering in the silence is enough to send your heart racing. You exit the labratory in a hurry, eager to put some distance between you and the odd tentacle in the jar...' + '</p>' +
   '</div>');
 },
-directions: ['up','down']
+directions: ['up','right']
 }
 var hallway2 = {
   title: 'Hallway',
@@ -243,7 +261,7 @@ var entrance = {
 
 var path = {
   title: 'Path',
-  keywords: ['pocket'],
+  keywords: ['pocket','pockets'],
   description: '<div class="room" id="path">' +
   '<p>' + 'You stand alone on a narrow path hemmed in by towering trees. A blocky shadow looms ahead. You can only go forward...' + '</p>' +
   '</div>',
@@ -253,7 +271,7 @@ var path = {
   after: null,
   results: function(){
     alert("You find a pack of cigarettes");
-    Character.items.push("cigarettes");
+    Character.items.push(" Cigarettes");
   },
   directions: ['up'],
 }
